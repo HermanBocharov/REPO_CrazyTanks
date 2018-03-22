@@ -6,5 +6,7 @@ class Enemy :
 public:
 	Enemy();
 	~Enemy();
+
+	virtual void setDirection(Direction direction) override;
 };
 
