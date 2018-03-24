@@ -1,9 +1,5 @@
 #include "Wall.h"
 
-Wall::Wall() {}
-
-
-
 Wall::Wall(int x, int y)
 {
 	positionX_ = x;

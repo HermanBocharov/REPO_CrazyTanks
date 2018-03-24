@@ -7,6 +7,6 @@ class ProjectileFactory :
 public:
 	ProjectileFactory();
 	~ProjectileFactory();
-	virtual GameObject* createGameObject() override;
+	virtual GameObject* createGameObject(int x, int y) override;
 };
 

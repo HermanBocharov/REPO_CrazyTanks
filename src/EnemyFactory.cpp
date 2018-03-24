@@ -12,7 +12,7 @@ EnemyFactory::~EnemyFactory()
 
 
 
-GameObject* EnemyFactory::createGameObject()
+GameObject* EnemyFactory::createGameObject(int x, int y)
 {
 	return new Enemy();
 }

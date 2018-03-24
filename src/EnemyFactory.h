@@ -7,6 +7,6 @@ class EnemyFactory :
 public:
 	EnemyFactory();
 	~EnemyFactory();
-	virtual GameObject* createGameObject() override;
+	virtual GameObject* createGameObject(int x, int y) override;
 };
 

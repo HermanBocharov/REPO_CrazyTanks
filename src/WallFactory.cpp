@@ -12,7 +12,7 @@ WallFactory::~WallFactory()
 
 
 
-GameObject* WallFactory::createGameObject()
+GameObject* WallFactory::createGameObject(int x, int y)
 {
-	return new Wall();
+	return new Wall(x, y);
 }

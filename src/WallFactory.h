@@ -7,6 +7,6 @@ class WallFactory :
 public:
 	WallFactory();
 	~WallFactory();
-	virtual GameObject* createGameObject() override;
+	virtual GameObject* createGameObject(int x, int y) override;
 };
 

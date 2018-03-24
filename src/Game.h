@@ -27,7 +27,7 @@ public:
 
 	bool isObstacle(int x, int y);
 
-	vector<Wall> generateWalls(int nWalls);
+	vector<GameObject*> generateWalls(int nWalls);
 
 private:
 	const int UP_ARROW = 72;
@@ -37,8 +37,8 @@ private:
 
 	Field* field_;
 	Gold* gold_;
-	Wall wall_;
-	vector<Wall> walls_;
+	GameObject* wall_;
+	vector<GameObject*> walls_;
 	Player* player_;
 
 	bool hasMultimapKeyValue(multimap<int, int> mMap, int key, int value);

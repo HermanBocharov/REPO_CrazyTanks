@@ -15,6 +15,8 @@ Game::Game()
 Game::~Game()
 {
 	delete field_;
+	delete gold_;
+	delete player_;
 }
 
 
@@ -43,7 +45,7 @@ void Game::updateFrame()
 	drawObject(*player_);
 
 	for (int i = 0; i < size(walls_); ++i)
-		drawObject(walls_[i]);
+		drawObject(*walls_[i]);
 }
 
 
@@ -102,7 +104,7 @@ void Game::drawField(Field& field)
 
 bool Game::isObstacle(int x, int y)
 {
-	bool isObstacle = (getChar(x, y) == wall_.getDisplayChar()) ||
+	bool isObstacle = (getChar(x, y) == wall_->getDisplayChar()) ||
 					  (getChar(x, y) == field_->getDisplayChar());
 
 	if (isObstacle == true)
@@ -113,7 +115,7 @@ bool Game::isObstacle(int x, int y)
 
 
 
-vector<Wall> Game::generateWalls(int nWalls)
+vector<GameObject*> Game::generateWalls(int nWalls)
 {
 	int strength = 3;
 	int x = 30;
@@ -121,37 +123,40 @@ vector<Wall> Game::generateWalls(int nWalls)
 
 	multimap<int, int> positionsXY;
 
-	wall_ = Wall(30, 23);
+	GameObjectFactory* wallFactory = new WallFactory();
+	wall_ = wallFactory->createGameObject(30, 23);
 	walls_.push_back(wall_);
-	wall_ = Wall(32, 23);
+	wall_= wallFactory->createGameObject(30, 23);
 	walls_.push_back(wall_);
-	wall_ = Wall(30, 22);
+	wall_= wallFactory->createGameObject(32, 23);
 	walls_.push_back(wall_);
-	wall_ = Wall(31, 22);
+	wall_= wallFactory->createGameObject(30, 22);
 	walls_.push_back(wall_);
-	wall_ = Wall(32, 22);
+	wall_= wallFactory->createGameObject(31, 22);
 	walls_.push_back(wall_);
-	wall_ = Wall(28, 22);
+	wall_= wallFactory->createGameObject(32, 22);
 	walls_.push_back(wall_);
-	wall_ = Wall(28, 21);
+	wall_= wallFactory->createGameObject(28, 22);
 	walls_.push_back(wall_);
-	wall_ = Wall(28, 20);
+	wall_= wallFactory->createGameObject(28, 21);
 	walls_.push_back(wall_);
-	wall_ = Wall(29, 20);
+	wall_= wallFactory->createGameObject(28, 20);
 	walls_.push_back(wall_);
-	wall_ = Wall(30, 20);
+	wall_= wallFactory->createGameObject(29, 20);
 	walls_.push_back(wall_);
-	wall_ = Wall(31, 20);
+	wall_= wallFactory->createGameObject(30, 20);
 	walls_.push_back(wall_);
-	wall_ = Wall(32, 20);
+	wall_= wallFactory->createGameObject(31, 20);
 	walls_.push_back(wall_);
-	wall_ = Wall(33, 20);
+	wall_= wallFactory->createGameObject(32, 20);
 	walls_.push_back(wall_);
-	wall_ = Wall(34, 20);
+	wall_= wallFactory->createGameObject(33, 20);
 	walls_.push_back(wall_);
-	wall_ = Wall(34, 21);
+	wall_= wallFactory->createGameObject(34, 20);
 	walls_.push_back(wall_);
-	wall_ = Wall(34, 22);
+	wall_= wallFactory->createGameObject(34, 21);
+	walls_.push_back(wall_);
+	wall_= wallFactory->createGameObject(34, 22);
 	walls_.push_back(wall_);
 
 	for (int i = 0; i < nWalls; ++i) {
@@ -160,9 +165,12 @@ vector<Wall> Game::generateWalls(int nWalls)
 			y = 1 + rand() % 18;
 		}
 		positionsXY.insert(make_pair(x, y));
-		wall_ = Wall(x, y);
+		wall_ = wallFactory->createGameObject(x, y);
 		walls_.push_back(wall_);
 	}
+
+	delete wall_;
+	delete wallFactory;
 
 	return walls_;
 }

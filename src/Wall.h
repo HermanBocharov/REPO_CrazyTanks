@@ -5,7 +5,6 @@
 class Wall : public GameObject
 {
 public:
-	Wall();
 	Wall(int x, int y);
 	~Wall();
 

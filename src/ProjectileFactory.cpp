@@ -12,7 +12,7 @@ ProjectileFactory::~ProjectileFactory()
 
 
 
-GameObject* ProjectileFactory::createGameObject()
+GameObject* ProjectileFactory::createGameObject(int x, int y)
 {
 	return new Projectile();
 }

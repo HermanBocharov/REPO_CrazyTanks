@@ -7,6 +7,6 @@ class GameObjectFactory
 public:
 	GameObjectFactory();
 	virtual ~GameObjectFactory();
-	virtual GameObject* createGameObject() = 0;
+	virtual GameObject* createGameObject(int x, int y) = 0;
 };
 
