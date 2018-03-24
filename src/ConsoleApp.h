@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CONSOLEAPP_H
+#define CONSOLEAPP_H
 
 #include <Windows.h>
 
@@ -24,3 +25,5 @@ private:
 	COORD charPosition_;
 	SMALL_RECT writeArea_;
 };
+
+#endif CONSOLEAPP_H

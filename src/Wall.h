@@ -1,4 +1,5 @@
-#pragma once
+#ifndef WALL_H
+#define WALL_H
 
 #include "GameObject.h"
 
@@ -14,3 +15,4 @@ private:
 	int strength_;
 };
 
+#endif WALL_H

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FIELD_H
+#define FIELD_H
 
 #include <map>
 
@@ -28,3 +29,4 @@ private:
 	char displayChar_;
 };
 
+#endif FIELD_H

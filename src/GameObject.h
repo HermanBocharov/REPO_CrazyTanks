@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAMEOBJECT_H
+#define GAMEOBJECT_H
 
 class GameObject
 {
@@ -22,3 +23,4 @@ protected:
 	char displayChar_;
 };
 
+#endif GAMEOBJECT_H

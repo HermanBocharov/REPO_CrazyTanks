@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_H
+#define GAME_H
 
 #include <vector>
 
@@ -44,3 +45,4 @@ private:
 	bool hasMultimapKeyValue(multimap<int, int> mMap, int key, int value);
 };
 
+#endif GAME_H

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GOLD_H
+#define GOLD_H
 
 #include "GameObject.h"
 
@@ -9,3 +10,4 @@ public:
 	~Gold();
 };
 
+#endif GOLD_H

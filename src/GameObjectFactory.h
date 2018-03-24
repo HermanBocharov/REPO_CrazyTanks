@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAMEOBJECTFACTORY_H
+#define GAMEOBJECTFACTORY_H
 
 #include "GameObject.h"
 
@@ -10,3 +11,4 @@ public:
 	virtual GameObject* createGameObject(int x, int y) = 0;
 };
 
+#endif GAMEOBJECTFACTORY_H

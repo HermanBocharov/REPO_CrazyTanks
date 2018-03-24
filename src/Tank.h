@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TANK_H
+#define TANK_H
 
 #include "GameObject.h"
 
@@ -18,3 +19,4 @@ protected:
 	Direction direction_;
 };
 
+#endif TANK_H

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GAMEINFORMATION_H
+#define GAMEINFORMATION_H
+
 class GameInformation
 {
 public:
@@ -6,3 +8,4 @@ public:
 	~GameInformation();
 };
 
+#endif GAMEINFORMATION_H

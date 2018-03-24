@@ -1,8 +1,10 @@
-#pragma once
+#ifndef PROJECTILEFACTORY_H
+#define PROJECTILEFACTORY_H
+
 #include "GameObjectFactory.h"
 #include "Projectile.h"
-class ProjectileFactory :
-	public GameObjectFactory
+
+class ProjectileFactory : public GameObjectFactory
 {
 public:
 	ProjectileFactory();
@@ -10,3 +12,4 @@ public:
 	virtual GameObject* createGameObject(int x, int y) override;
 };
 
+#endif PROJECTILEFACTORY_H
