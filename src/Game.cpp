@@ -27,7 +27,14 @@ void Game::run()
 
 	drawField(*field_);
 	drawObject(*gold_);
+
 	generateWalls(200);
+	for (int i = 0; i < size(walls_); ++i)
+		drawObject(*walls_[i]);
+
+	generateEnemies(8);
+	for (int i = 0; i < size(enemies_); ++i)
+		drawObject(*enemies_[i]);
 
 	while (true) {
 		if (_kbhit())
@@ -43,9 +50,6 @@ void Game::run()
 void Game::updateFrame()
 {
 	drawObject(*player_);
-
-	for (int i = 0; i < size(walls_); ++i)
-		drawObject(*walls_[i]);
 }
 
 
@@ -117,9 +121,8 @@ bool Game::isObstacle(int x, int y)
 
 vector<GameObject*> Game::generateWalls(int nWalls)
 {
-	int strength = 3;
-	int x = 30;
-	int y = 10;
+	int randomX = 30;
+	int randomY = 10;
 
 	multimap<int, int> positionsXY;
 
@@ -160,12 +163,12 @@ vector<GameObject*> Game::generateWalls(int nWalls)
 	walls_.push_back(wall_);
 
 	for (int i = 0; i < nWalls; ++i) {
-		while (hasMultimapKeyValue(positionsXY, x, y) == true) {
-			x = 18 + rand() % 28;
-			y = 1 + rand() % 18;
+		while (hasMultimapKeyValue(positionsXY, randomX, randomY) == true) {
+			randomX = 18 + rand() % 28;
+			randomY = 1 + rand() % 18;
 		}
-		positionsXY.insert(make_pair(x, y));
-		wall_ = wallFactory->createGameObject(x, y);
+		positionsXY.insert(make_pair(randomX, randomY));
+		wall_ = wallFactory->createGameObject(randomX, randomY);
 		walls_.push_back(wall_);
 	}
 
@@ -173,6 +176,54 @@ vector<GameObject*> Game::generateWalls(int nWalls)
 	delete wallFactory;
 
 	return walls_;
+}
+
+
+
+vector<GameObject*> Game::generateEnemies(int nEnemies)
+{
+	int randomX = 0;
+	int randomY = 0;
+	bool canGenerate = false;
+
+	multimap<int, int> positionsXY;
+
+	GameObjectFactory* enemyFactory = new EnemyFactory();
+
+	for (int i = 0; i < nEnemies; ++i) {
+		canGenerate = false;
+		while (canGenerate == false) {
+			randomX = 18 + rand() % 28;
+			randomY = 1 + rand() % 15;
+
+			canGenerate = (canGenerateEnemy(randomX, randomY)) &&
+						  (!hasMultimapKeyValue(positionsXY, randomX, randomY));
+		}
+
+		for (int x = randomX - 2; x < randomX + 2; ++x) {
+			for (int y = randomY - 2; y < randomY + 2; ++y) {
+				positionsXY.insert(make_pair(x, y));
+			}
+		}
+
+		enemy_ = dynamic_cast<Enemy*>(enemyFactory->createGameObject(randomX, randomY));
+		enemies_.push_back(enemy_);
+	}
+
+	delete enemy_;
+	delete enemyFactory;
+
+	return enemies_;
+}
+
+
+
+bool Game::canGenerateEnemy(int x, int y)
+{
+	if (getChar(x, y) != ' ')
+		return false;
+
+	return true;
 }
 
 

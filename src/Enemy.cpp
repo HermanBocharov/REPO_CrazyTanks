@@ -1,7 +1,10 @@
 #include "Enemy.h"
 
-Enemy::Enemy()
+Enemy::Enemy(int x, int y)
 {
+	positionX_ = x;
+	positionY_ = y;
+	displayChar_ = 203;
 }
 
 

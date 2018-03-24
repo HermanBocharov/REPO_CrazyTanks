@@ -6,7 +6,7 @@
 class Enemy : public Tank
 {
 public:
-	Enemy();
+	Enemy(int x, int y);
 	~Enemy();
 
 	virtual void setDirection(Direction direction) override;
