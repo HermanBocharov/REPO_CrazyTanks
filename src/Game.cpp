@@ -17,6 +17,7 @@ Game::~Game()
 	delete field_;
 	delete gold_;
 	delete player_;
+	delete wall_;
 }
 
 
@@ -32,7 +33,7 @@ void Game::run()
 	for (int i = 0; i < size(walls_); ++i)
 		drawObject(*walls_[i]);
 
-	generateEnemies(8);
+	generateEnemies(10);
 	for (int i = 0; i < size(enemies_); ++i)
 		drawObject(*enemies_[i]);
 
@@ -109,7 +110,8 @@ void Game::drawField(Field& field)
 bool Game::isObstacle(int x, int y)
 {
 	bool isObstacle = (getChar(x, y) == wall_->getDisplayChar()) ||
-					  (getChar(x, y) == field_->getDisplayChar());
+					  (getChar(x, y) == field_->getDisplayChar()) ||
+					  (getChar(x, y) == enemy_->getDisplayChar());
 
 	if (isObstacle == true)
 		return true;
@@ -121,6 +123,12 @@ bool Game::isObstacle(int x, int y)
 
 vector<GameObject*> Game::generateWalls(int nWalls)
 {
+	// area for generating walls
+	const int topLeftCornerX = 18;
+	const int topLeftCornerY = 1;
+	const int areaWidth = 28;
+	const int areaHeight = 18;
+
 	int randomX = 30;
 	int randomY = 10;
 
@@ -164,15 +172,14 @@ vector<GameObject*> Game::generateWalls(int nWalls)
 
 	for (int i = 0; i < nWalls; ++i) {
 		while (hasMultimapKeyValue(positionsXY, randomX, randomY) == true) {
-			randomX = 18 + rand() % 28;
-			randomY = 1 + rand() % 18;
+			randomX = topLeftCornerX + rand() % areaWidth;
+			randomY = topLeftCornerY + rand() % areaHeight;
 		}
 		positionsXY.insert(make_pair(randomX, randomY));
 		wall_ = wallFactory->createGameObject(randomX, randomY);
 		walls_.push_back(wall_);
 	}
 
-	delete wall_;
 	delete wallFactory;
 
 	return walls_;
@@ -182,8 +189,15 @@ vector<GameObject*> Game::generateWalls(int nWalls)
 
 vector<GameObject*> Game::generateEnemies(int nEnemies)
 {
-	int randomX = 0;
-	int randomY = 0;
+	// area for generating enemies
+	const int topLeftCornerX = 18;
+	const int topLeftCornerY = 1;
+	const int areaWidth = 28;
+	const int areaHeight = 15;
+	const int distanceBetweenEnemies = 2;
+
+	int randomX;
+	int randomY;
 	bool canGenerate = false;
 
 	multimap<int, int> positionsXY;
@@ -193,20 +207,21 @@ vector<GameObject*> Game::generateEnemies(int nEnemies)
 	for (int i = 0; i < nEnemies; ++i) {
 		canGenerate = false;
 		while (canGenerate == false) {
-			randomX = 18 + rand() % 28;
-			randomY = 1 + rand() % 15;
+			randomX = topLeftCornerX + rand() % areaWidth;
+			randomY = topLeftCornerY + rand() % areaHeight;
 
 			canGenerate = (canGenerateEnemy(randomX, randomY)) &&
 						  (!hasMultimapKeyValue(positionsXY, randomX, randomY));
 		}
 
-		for (int x = randomX - 2; x < randomX + 2; ++x) {
-			for (int y = randomY - 2; y < randomY + 2; ++y) {
-				positionsXY.insert(make_pair(x, y));
+		for (int x = randomX - distanceBetweenEnemies; x <= randomX + distanceBetweenEnemies; ++x) {
+			for (int y = randomY - distanceBetweenEnemies; y <= randomY + distanceBetweenEnemies; ++y) {
+				if (hasMultimapKeyValue(positionsXY, x, y) == false)
+					positionsXY.insert(make_pair(x, y));
 			}
 		}
 
-		enemy_ = dynamic_cast<Enemy*>(enemyFactory->createGameObject(randomX, randomY));
+		enemy_ = enemyFactory->createGameObject(randomX, randomY);
 		enemies_.push_back(enemy_);
 	}
 
@@ -232,7 +247,7 @@ bool Game::hasMultimapKeyValue(multimap<int, int> mMap, int key, int value)
 {
 	auto range = mMap.equal_range(key);
 	auto pair = find_if(range.first, range.second,
-		[&](auto& el) { return el.second == value; });
+		[&value](auto& el) { return el.second == value; });
 
 	if (pair != range.second)
 		return true;
